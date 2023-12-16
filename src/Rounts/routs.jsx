@@ -3,6 +3,7 @@ import {
   } from "react-router-dom";
 import Root from "../RootPage/Root";
 import Dashbord from "../Pages/Dashbord/Dashbord";
+import Register from "../Pages/Register/Register";
 
 
   const router = createBrowserRouter([
@@ -14,6 +15,10 @@ import Dashbord from "../Pages/Dashbord/Dashbord";
         {
             path:'/',
             element: <Dashbord></Dashbord>
+        },
+        {
+          path:'/register',
+          element: <Register></Register>
         }
       ]
     },
