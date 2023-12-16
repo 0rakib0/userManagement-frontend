@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom"
+
 const Register = () => {
     return (
-        <div className="min-h-screen bg-base-200 mt-6 rounded-lg border-2 border-primaryColor m-5">
+        <div className="min-h-screen bg-base-200 mt-6 rounded-lg border-2 border-primaryColor m-5 p-4">
             <div className="flex mx-auto">
                 <div className="text-center w-6/12">
-                    <img src="https://www.shutterstock.com/image-vector/modern-flat-illustration-data-analytics-600w-2199640193.jpg" className="h-full my-2" alt="" />
+                    <img src="https://www.shutterstock.com/image-vector/modern-flat-illustration-data-analytics-600w-2199640193.jpg" className="h-full 1z-1 my-2" alt="" />
                 </div>
                 <div className="shadow-2xl w-3/4 bd-green-500 m-2">
                     <form className="card-body">
@@ -25,31 +27,37 @@ const Register = () => {
                         <div className="flex gap-2">
                             <div className="w-full">
                                 <label className="label">
+                                    <span className="label-text">Password</span>
+                                </label>
+                                <input type="Password" placeholder="Password" className="input input-bordered w-full" required />
+                            </div>
+                            <div className="w-full">
+                                <label className="label">
                                     <span className="label-text">Phone</span>
                                 </label>
                                 <input type="text" placeholder="Phone Number" className="input input-bordered w-full" required />
                             </div>
-                            <div className="w-full">
-                                <label className="form-control w-full max-w-xs">
-                                    <div className="label">
-                                        <span className="label-text">City</span>
-                                    </div>
-                                    <select className="select select-bordered">
-                                        <option disabled hidden selected>--SELECT--</option>
-                                        <option>Mumbai</option>
-                                        <option>Pune</option>
-                                        <option>Ahmedabad</option>
-                                    </select>
-                                </label>
-                            </div>
+                        </div>
+                        <div className="w-full">
+                            <label className="form-control w-full">
+                                <div className="label">
+                                    <span className="label-text">City</span>
+                                </div>
+                                <select className="select select-bordered">
+                                    <option disabled hidden selected>--SELECT--</option>
+                                    <option>Mumbai</option>
+                                    <option>Pune</option>
+                                    <option>Ahmedabad</option>
+                                </select>
+                            </label>
                         </div>
 
                         <div className="w-full">
-                                <label className="label">
-                                    <span className="label-text">State</span>
-                                </label>
-                                <input type="text" placeholder="State" className="input input-bordered w-full" required />
-                            </div>
+                            <label className="label">
+                                <span className="label-text">State</span>
+                            </label>
+                            <input type="text" placeholder="State" className="input input-bordered w-full" required />
+                        </div>
 
                         <div className="w-full">
                             <label className="label">
@@ -68,6 +76,7 @@ const Register = () => {
                         <div className="form-control mt-6">
                             <button className="bg-primaryColor text-white py-3 rounded-md hover:bg-secondaryColor">Register</button>
                         </div>
+                        <p className="text-center">Already have account? <Link to='/login' className="text-primaryColor">Login</Link></p>
                     </form>
                 </div>
             </div>
