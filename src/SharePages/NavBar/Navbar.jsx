@@ -1,13 +1,26 @@
+import { useContext } from "react"
 import { NavLink } from "react-router-dom"
+import { AuthContext } from "../../AuthProvider/AuthProvider"
 
 const NavBar = () => {
 
+    const { user, Logout } = useContext(AuthContext)
+
+
+    const handleLogout = () =>{
+        Logout()
+    }
 
     const NavLinks = <>
         <li className="text-lg"><NavLink to='/'>Dashbord</NavLink></li>
-        <li className="text-lg md:ml-3"><NavLink to='/logout'>Logout</NavLink></li>
-        <li className="text-lg md:ml-3"><NavLink to='/login'>Login</NavLink></li>
-        <li className="text-lg md:ml-3"><NavLink to='/register'>Register</NavLink></li>
+        {user ? <li className="text-lg md:ml-3"><NavLink onClick={handleLogout}>Logout</NavLink></li> :
+            <>
+                <li className="text-lg md:ml-3"><NavLink to='/login'>Login</NavLink></li>
+                <li className="text-lg md:ml-3"><NavLink to='/register'>Register</NavLink></li>
+            </>
+        }
+
+
     </>
 
     return (
@@ -26,12 +39,12 @@ const NavBar = () => {
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
-                       {NavLinks}
+                        {NavLinks}
                     </ul>
                 </div>
-                <div className="navbar-end">
-                    <p className="text-xl md:pr-4 text-white">Rakib</p>
-                </div>
+               {user && <div className="navbar-end">
+                    <p className="text-xl md:pr-4 text-white lowercase">{user.email}</p>
+                </div>}
             </div>
         </div>
     )

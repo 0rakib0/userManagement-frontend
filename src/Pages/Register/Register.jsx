@@ -1,13 +1,19 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { AuthContext } from "../../AuthProvider/AuthProvider"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import Swal from "sweetalert2"
+import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 
 const Register = () => {
 
-    const { createUser, user } = useContext(AuthContext)
+    const { createUser, user, Logout } = useContext(AuthContext)
+    const [showpasswords, setShowPassword] = useState(false)
 
+    const showPassword = () => {
+        setShowPassword(!showpasswords)
+    }
 
+    const naviget = useNavigate()
     const handleSubmit = (event) => {
         event.preventDefault()
         const form = event.target;
@@ -36,6 +42,9 @@ const Register = () => {
                     text: "Your account successfully register please login!",
                     icon: "success"
                 });
+                Logout()
+                naviget('/login')
+
             })
             .catch(error => {
                 console.error(error.message)
@@ -51,11 +60,11 @@ const Register = () => {
                 <div className="shadow-2xl w-3/4 bd-green-500 m-2">
                     <form className="card-body" onSubmit={handleSubmit}>
                         <h4 className="text-center text-2xl">REGISTER</h4>
-                        {user.email}
+                        {user?.email}
                         <div className="flex gap-2">
                             <div className="w-full">
                                 <label className="label">
-                                    <span className="label-text">FUll Name</span>
+                                    <span className="label-text">Full Name</span>
                                 </label>
                                 <input type="text" placeholder="Full name" name="name" className="input input-bordered w-full" required />
                             </div>
@@ -71,7 +80,14 @@ const Register = () => {
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input type="Password" name="password" placeholder="Password" className="input input-bordered w-full" required />
+                                <div className="relative">
+                                    <input type={showpasswords ? "text" : "password"} name="password" placeholder="Password" className="input input-bordered w-full" required />
+                                    <div className="absolute top-4 right-4">
+                                        {showpasswords ? <FaRegEye onClick={showPassword} className="text-lg"></FaRegEye> :
+                                            <FaRegEyeSlash onClick={showPassword} className="text-lg"></FaRegEyeSlash>
+                                        }
+                                    </div>
+                                </div>
                             </div>
                             <div className="w-full">
                                 <label className="label">
