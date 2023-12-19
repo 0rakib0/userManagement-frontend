@@ -1,11 +1,12 @@
-import { createContext } from "react"
 import { Link } from "react-router-dom"
 import { AuthContext } from "../../AuthProvider/AuthProvider"
+import { useContext } from "react"
+import Swal from "sweetalert2"
 
 const Register = () => {
 
-    const { createUser } = createContext(AuthContext)
-    console.log(createUser)
+    const { createUser, user } = useContext(AuthContext)
+
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -28,10 +29,13 @@ const Register = () => {
             gender
         }
 
-        createUser()
+        createUser(email, password)
             .then(result => {
-                const user = result.user
-                console.log(user)
+                Swal.fire({
+                    title: "Account successfully register!",
+                    text: "Your account successfully register please login!",
+                    icon: "success"
+                });
             })
             .catch(error => {
                 console.error(error.message)
@@ -47,6 +51,7 @@ const Register = () => {
                 <div className="shadow-2xl w-3/4 bd-green-500 m-2">
                     <form className="card-body" onSubmit={handleSubmit}>
                         <h4 className="text-center text-2xl">REGISTER</h4>
+                        {user.email}
                         <div className="flex gap-2">
                             <div className="w-full">
                                 <label className="label">
