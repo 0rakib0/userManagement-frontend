@@ -1,9 +1,61 @@
-import { useContext } from "react"
-import { AuthContext } from "../../AuthProvider/AuthProvider"
-import { FaSearch } from "react-icons/fa"
+import { useState } from "react";
+import { FaRegPlusSquare, FaSearch } from "react-icons/fa"
+import Swal from "sweetalert2";
 
-const Dashbord = () =>{
-    const {name} = useContext(AuthContext)
+const Dashbord = () => {
+
+    const [isModalOpen, setModalOpen] = useState(false)
+
+    const handleAddUser = async (event) =>{
+        event.preventDefault()
+        const form = event.target;
+        const name = form.full_name.value;
+        const email = form.email.value;
+        const phone = form.phone.value;
+
+        const userData = {
+            name,
+            email,
+            phone,
+            createAT: new Date(),
+            updateAt: new Date()
+        }
+        
+        console.log(userData)
+
+        try{
+            const response = await fetch('http://localhost:5000/user', {
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+            if(!response.ok){
+                console.log("Netwok request faild")
+            }
+            setModalOpen(false)
+
+            Swal.fire({
+                title: "User SUccessfully Added",
+                text: "User Successfully added in database",
+                icon: "success"
+              });
+            
+        }catch(error) {
+            console.log(error)
+        }
+
+        fetch('http://localhost:5000/user', userData,{
+            method: "POST",
+            type: {
+                'content-type':'json/ontent'
+            },
+            body: JSON.body()
+        })
+
+    }
+
     return (
         <div className="bg-base-200 mt-6 md:mt-16 p-4">
             <div className="flex justify-between">
@@ -26,6 +78,49 @@ const Dashbord = () =>{
             <div className="bg-base-200">
                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequatur quam officiis, obcaecati excepturi non odio modi iste illum exercitationem deleniti dolores doloremque culpa reprehenderit doloribus laboriosam accusantium hic quasi inventore.</p>
             </div>
+            <div>
+                <div className="w-3/12 h-32 flex justify-center items-center border border-primaryColor rounded-md">
+                    <FaRegPlusSquare onClick={() => setModalOpen(true)} className="text-[56px] hover:text-primaryColor"></FaRegPlusSquare>
+                </div>
+            </div>
+
+            {/* add user modal  */}
+            <dialog id="my_modal_1" className={`modal ${isModalOpen ? 'open':''}`}>
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg text-center">Add User</h3>
+                    <div>
+                        <form onSubmit={handleAddUser}>
+                            <label className="form-control w-full">
+                                <div className="label">
+                                    <span className="label-text">Full Name</span>
+                                </div>
+                                <input type="text" placeholder="Full name" name="full_name" className="input input-bordered w-full" required />
+                            </label>
+                            <label className="form-control w-full">
+                                <div className="label">
+                                    <span className="label-text">Email</span>
+                                </div>
+                                <input type="email" placeholder="Email" name="email" className="input input-bordered w-full" required />
+                            </label>
+                            <label className="form-control w-full">
+                                <div className="label">
+                                    <span className="label-text">Phone Number</span>
+                                </div>
+                                <input type="text" placeholder="Phone number" name="phone" className="input input-bordered w-full" required />
+                            </label>
+                            <label className="form-control w-full mt-4">
+                                <input type="submit" value="Add User" className="input input-bordered w-full bg-primaryColor text-white py-3 rounded-md hover:bg-secondaryColor" />
+                            </label>
+                        </form>
+                    </div>
+                    <div className="modal-action">
+                        <form method="dialog">
+                            {/* if there is a button in form, it will close the modal */}
+                            <button className="btn">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
         </div>
     )
 }
