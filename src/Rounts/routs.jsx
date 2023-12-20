@@ -6,6 +6,7 @@ import Dashbord from "../Pages/Dashbord/Dashbord";
 import Register from "../Pages/Register/Register";
 import Login from "../Pages/Login/Login";
 import ViewUser from "../Pages/ViewUser/ViewUser";
+import UpdateUser from "../Pages/UpdateUser/UpdateUser";
 
 
   const router = createBrowserRouter([
@@ -29,6 +30,10 @@ import ViewUser from "../Pages/ViewUser/ViewUser";
         {
           path:'/view-user/:userId',
           element: <ViewUser></ViewUser>,
+        },
+        {
+          path:'/update-user/:userId',
+          element: <UpdateUser></UpdateUser>,
         }
       ]
     },

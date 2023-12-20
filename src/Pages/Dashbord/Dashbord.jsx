@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBook, FaEdit, FaRegPlusSquare, FaSearch, FaTrashAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from "sweetalert2";
 
 const Dashboard = () => {
-
+    const naviget = useNavigate()
     const [userData, setUserData] = useState([])
+    const [searchValue, setSerchValue] = useState('')
     const handleAddUser = async (event) => {
         event.preventDefault();
         const form = event.target;
@@ -38,6 +39,7 @@ const Dashboard = () => {
                 // Handle successful response
                 toast.success("User successfully added to the database!");
                 form.reset()
+                naviget('/')
             }
         } catch (error) {
             console.error("Error adding user:", error.message);
@@ -45,9 +47,13 @@ const Dashboard = () => {
         }
     };
 
-    fetch('http://localhost:5000/users')
-        .then(res => res.json())
-        .then(data => setUserData(data))
+    console.log(searchValue)
+
+    useEffect(() => {
+        fetch(`http://localhost:5000/users?search=${searchValue}`)
+            .then(res => res.json())
+            .then(data => setUserData(data))
+    }, [searchValue])
 
 
     const handleDelete = (id) => {
@@ -78,13 +84,23 @@ const Dashboard = () => {
         });
     }
 
+
+    const handleCerch = (event) =>{
+        event.preventDefault();
+        const serchValue = event.target.serch.value 
+        setSerchValue(serchValue)
+    }
+
+
+
+
     return (
         <div className="bg-base-200 mt-6 md:mt-16 p-4">
             <ToastContainer />
             <div className="flex justify-between">
                 <div className="">
-                    <form className="">
-                        <input type="text" placeholder="Search" className="border-2 p-2 w-[20rem] relative rounded-l-xl outline-none focus:border focus:border-primaryColor" />
+                    <form className="" onSubmit={handleCerch}>
+                        <input type="text" placeholder="Search" name="serch" className="border-2 p-2 w-[20rem] relative rounded-l-xl outline-none focus:border focus:border-primaryColor" />
                         <button className="border-y-2 border-r-2 py-3 px-6 rounded-r-xl bg-white absolute hover:bg-base-200"><FaSearch /></button>
                     </form>
                 </div>
@@ -119,7 +135,7 @@ const Dashboard = () => {
                                 <Link to={`/view-user/${user._id}`}><FaBook></FaBook></Link>
                             </div>
                             <div className="my-2 text-lg bg-[#f0a942] text-white p-1.5 rounded hover:cursor-pointer">
-                                <Link><FaEdit></FaEdit></Link>
+                                <Link to={`/update-user/${user._id}`}><FaEdit></FaEdit></Link>
                             </div>
                             <div onClick={() => handleDelete(user._id)} className="my-2 text-lg bg-[#ce403b] text-white p-1.5 rounded hover:cursor-pointer">
                                 <Link><FaTrashAlt></FaTrashAlt></Link>
@@ -143,7 +159,7 @@ const Dashboard = () => {
                                 <Link to={`/view-user/${user._id}`}><FaBook></FaBook></Link>
                             </div>
                             <div className="my-2 text-lg bg-[#f0a942] text-white p-1.5 rounded hover:cursor-pointer">
-                                <Link><FaEdit></FaEdit></Link>
+                                <Link to={`/update-user/${user._id}`}><FaEdit></FaEdit></Link>
                             </div>
                             <div onClick={() => handleDelete(user._id)} className="my-2 text-lg bg-[#ce403b] text-white p-1.5 rounded hover:cursor-pointer">
                                 <Link><FaTrashAlt></FaTrashAlt></Link>
