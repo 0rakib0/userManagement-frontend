@@ -3,6 +3,7 @@ import { FaBook, FaEdit, FaRegPlusSquare, FaSearch, FaTrashAlt } from "react-ico
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
 
@@ -44,11 +45,38 @@ const Dashboard = () => {
         }
     };
 
-
     fetch('http://localhost:5000/users')
         .then(res => res.json())
         .then(data => setUserData(data))
 
+
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:5000/delete-user/${id}`, {
+                    method: "DELETE"
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.deletedCount > 0) {
+                            Swal.fire({
+                                title: "User Deleted!",
+                                text: "User Successfully deleted!.",
+                                icon: "success"
+                            });
+                        }
+                    })
+            }
+        });
+    }
 
     return (
         <div className="bg-base-200 mt-6 md:mt-16 p-4">
@@ -93,7 +121,7 @@ const Dashboard = () => {
                             <div className="my-2 text-lg bg-[#f0a942] text-white p-1.5 rounded hover:cursor-pointer">
                                 <Link><FaEdit></FaEdit></Link>
                             </div>
-                            <div className="my-2 text-lg bg-[#ce403b] text-white p-1.5 rounded hover:cursor-pointer">
+                            <div onClick={() => handleDelete(user._id)} className="my-2 text-lg bg-[#ce403b] text-white p-1.5 rounded hover:cursor-pointer">
                                 <Link><FaTrashAlt></FaTrashAlt></Link>
                             </div>
                         </div>
@@ -117,7 +145,7 @@ const Dashboard = () => {
                             <div className="my-2 text-lg bg-[#f0a942] text-white p-1.5 rounded hover:cursor-pointer">
                                 <Link><FaEdit></FaEdit></Link>
                             </div>
-                            <div className="my-2 text-lg bg-[#ce403b] text-white p-1.5 rounded hover:cursor-pointer">
+                            <div onClick={() => handleDelete(user._id)} className="my-2 text-lg bg-[#ce403b] text-white p-1.5 rounded hover:cursor-pointer">
                                 <Link><FaTrashAlt></FaTrashAlt></Link>
                             </div>
                         </div>
