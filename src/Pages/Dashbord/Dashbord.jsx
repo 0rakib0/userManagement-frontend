@@ -9,6 +9,17 @@ const Dashboard = () => {
     const naviget = useNavigate()
     const [userData, setUserData] = useState([])
     const [searchValue, setSerchValue] = useState('')
+
+    const [selectData, setSelectData] = useState('');
+    console.log(selectData);
+    
+    const handleSelect = (event) => {
+        event.preventDefault();
+        const selectValue = event.target.value;
+        setSelectData(selectValue);
+    };
+
+
     const handleAddUser = async (event) => {
         event.preventDefault();
         const form = event.target;
@@ -47,13 +58,11 @@ const Dashboard = () => {
         }
     };
 
-    console.log(searchValue)
-
     useEffect(() => {
-        fetch(`http://localhost:5000/users?search=${searchValue}`)
+        fetch(`http://localhost:5000/users?search=${searchValue}&select=${selectData}`)
             .then(res => res.json())
             .then(data => setUserData(data))
-    }, [searchValue])
+    }, [searchValue, selectData])
 
 
     const handleDelete = (id) => {
@@ -105,12 +114,12 @@ const Dashboard = () => {
                     </form>
                 </div>
                 <div className="">
-                    <select name="" id="" className="border-2 p-2 w-[20rem] rounded-lg outline-none focus:border focus:border-primaryColor">
+                    <select value={selectData} onChange={handleSelect} id="" className="border-2 p-2 w-[20rem] rounded-lg outline-none focus:border focus:border-primaryColor">
                         <option value="">All</option>
-                        <option value="">A-Z</option>
-                        <option value="">Z-A</option>
-                        <option value="">Last Modified</option>
-                        <option value="">Last Insert</option>
+                        <option value="acs">A-Z</option>
+                        <option value="dcs">Z-A</option>
+                        <option value="last_modify">Last Modified</option>
+                        <option value="last_insert">Last Insert</option>
                     </select>
                 </div>
             </div>
