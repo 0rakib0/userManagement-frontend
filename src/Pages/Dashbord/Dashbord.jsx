@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { FaRegPlusSquare, FaSearch } from "react-icons/fa";
+import { FaBook, FaEdit, FaRegPlusSquare, FaSearch, FaTrashAlt } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Dashboard = () => {
 
+    const [userData, setUserData] = useState([])
     const handleAddUser = async (event) => {
         event.preventDefault();
         const form = event.target;
@@ -35,17 +36,18 @@ const Dashboard = () => {
                 // Handle successful response
                 toast.success("User successfully added to the database!");
                 form.reset()
-                // Swal.fire({
-                //     title: "User Successfully Added",
-                //     text: "User successfully added to the database",
-                //     icon: "success",
-                // });
             }
         } catch (error) {
             console.error("Error adding user:", error.message);
             // Handle error, e.g., show an error message.
         }
     };
+
+
+    fetch('http://localhost:5000/users')
+        .then(res => res.json())
+        .then(data => setUserData(data))
+
 
     return (
         <div className="bg-base-200 mt-6 md:mt-16 p-4">
@@ -68,13 +70,60 @@ const Dashboard = () => {
                 </div>
             </div>
             <div className="bg-base-200">
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequatur quam officiis, obcaecati excepturi non odio modi iste illum exercitationem deleniti dolores doloremque culpa reprehenderit doloribus laboriosam accusantium hic quasi inventore.</p>
+
             </div>
-            <div>
-                <div className="w-3/12 h-32 flex justify-center items-center border border-primaryColor rounded-md">
+            <div className="mt-6 grid md:grid-cols-3 gap-4">
+                <div className="w-/12 h-36 flex justify-center mt-2 items-center border border-primaryColor rounded-md">
                     <FaRegPlusSquare onClick={() => document.getElementById('my_modal_1').showModal()} className="text-[56px] hover:text-primaryColor" />
                 </div>
+
+                {
+                    userData.slice(0, 2).map(user => <div key={user._id} className="relative">
+                        <div className="w-/12 my-2 bg-green-200 p-2 rounded-lg">
+                            <p className="mb-2"><span className="font-bold">Name:</span> {user.name}</p>
+                            <p className="mb-2"><span className="font-bold">Email:</span> {user.email}</p>
+                            <p className="mb-2"><span className="font-bold">Phone:</span> {user.phone}</p>
+                            <p><span className="font-bold">Created at:</span> {user.createAt}</p>
+                        </div>
+                        <div className="absolute top-4 right-6">
+                            <div className="my-2 text-lg bg-[#5cb95c] text-white p-1.5 rounded hover:cursor-pointer">
+                                <FaBook></FaBook>
+                            </div>
+                            <div className="my-2 text-lg bg-[#f0a942] text-white p-1.5 rounded hover:cursor-pointer">
+                                <FaEdit></FaEdit>
+                            </div>
+                            <div className="my-2 text-lg bg-[#ce403b] text-white p-1.5 rounded hover:cursor-pointer">
+                                <FaTrashAlt></FaTrashAlt>
+                            </div>
+                        </div>
+                    </div>)
+                }
             </div>
+
+            <div className="mt-6 grid md:grid-cols-3 gap-4">
+                {
+                    userData.slice(2,).map(user => <div className="relative" key={user._id}>
+                        <div className="w-/12 my-2 bg-green-200 p-2 rounded-lg">
+                            <p className="mb-2"><span className="font-bold">Name:</span> {user.name}</p>
+                            <p className="mb-2"><span className="font-bold">Email:</span> {user.email}</p>
+                            <p className="mb-2"><span className="font-bold">Phone:</span> {user.phone}</p>
+                            <p><span className="font-bold">Created at:</span> {user.createAt}</p>
+                        </div>
+                        <div className="absolute top-4 right-6">
+                            <div className="my-2 text-lg bg-[#5cb95c] text-white p-1.5 rounded hover:cursor-pointer">
+                                <FaBook></FaBook>
+                            </div>
+                            <div className="my-2 text-lg bg-[#f0a942] text-white p-1.5 rounded hover:cursor-pointer">
+                                <FaEdit></FaEdit>
+                            </div>
+                            <div className="my-2 text-lg bg-[#ce403b] text-white p-1.5 rounded hover:cursor-pointer">
+                                <FaTrashAlt></FaTrashAlt>
+                            </div>
+                        </div>
+                    </div>)
+                }
+            </div>
+
 
             {/* add user modal  */}
             <dialog id="my_modal_1" className="modal">
