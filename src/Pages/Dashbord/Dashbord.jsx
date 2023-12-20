@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaBook, FaEdit, FaRegPlusSquare, FaSearch, FaTrashAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -87,13 +88,13 @@ const Dashboard = () => {
                         </div>
                         <div className="absolute top-4 right-6">
                             <div className="my-2 text-lg bg-[#5cb95c] text-white p-1.5 rounded hover:cursor-pointer">
-                                <FaBook></FaBook>
+                                <Link to={`/view-user/${user._id}`}><FaBook></FaBook></Link>
                             </div>
                             <div className="my-2 text-lg bg-[#f0a942] text-white p-1.5 rounded hover:cursor-pointer">
-                                <FaEdit></FaEdit>
+                                <Link><FaEdit></FaEdit></Link>
                             </div>
                             <div className="my-2 text-lg bg-[#ce403b] text-white p-1.5 rounded hover:cursor-pointer">
-                                <FaTrashAlt></FaTrashAlt>
+                                <Link><FaTrashAlt></FaTrashAlt></Link>
                             </div>
                         </div>
                     </div>)
@@ -111,13 +112,13 @@ const Dashboard = () => {
                         </div>
                         <div className="absolute top-4 right-6">
                             <div className="my-2 text-lg bg-[#5cb95c] text-white p-1.5 rounded hover:cursor-pointer">
-                                <FaBook></FaBook>
+                                <Link to={`/view-user/${user._id}`}><FaBook></FaBook></Link>
                             </div>
                             <div className="my-2 text-lg bg-[#f0a942] text-white p-1.5 rounded hover:cursor-pointer">
-                                <FaEdit></FaEdit>
+                                <Link><FaEdit></FaEdit></Link>
                             </div>
                             <div className="my-2 text-lg bg-[#ce403b] text-white p-1.5 rounded hover:cursor-pointer">
-                                <FaTrashAlt></FaTrashAlt>
+                                <Link><FaTrashAlt></FaTrashAlt></Link>
                             </div>
                         </div>
                     </div>)

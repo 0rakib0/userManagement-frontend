@@ -5,6 +5,7 @@ import Root from "../RootPage/Root";
 import Dashbord from "../Pages/Dashbord/Dashbord";
 import Register from "../Pages/Register/Register";
 import Login from "../Pages/Login/Login";
+import ViewUser from "../Pages/ViewUser/ViewUser";
 
 
   const router = createBrowserRouter([
@@ -24,6 +25,10 @@ import Login from "../Pages/Login/Login";
         {
           path:'/login',
           element: <Login></Login>
+        },
+        {
+          path:'/view-user/:userId',
+          element: <ViewUser></ViewUser>,
         }
       ]
     },
